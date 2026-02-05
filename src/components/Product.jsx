@@ -12,8 +12,8 @@ const Product = () => {
 
   const fetchProduct = async () => {
     try {
-      const response = await productsApi.show();
-      setProduct(response.data);
+      const product = await productsApi.show();
+      setProduct(product);
     } catch (error) {
       console.error("Error fetching product data", error);
     } finally {

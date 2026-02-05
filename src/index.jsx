@@ -1,11 +1,13 @@
 import React from "react";
 
+import responseInterceptors from "apis/axios";
 import ReactDOM from "react-dom/client";
 
 import App from "./App";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 
+responseInterceptors();
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
