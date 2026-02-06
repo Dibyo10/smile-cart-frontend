@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 
 import productsApi from "apis/products";
+import useDebounce from "hooks/useDebounce";
 import { Search } from "neetoicons";
-import { Input, NoData } from "neetoui";
-// eslint-disable-next-line no-duplicate-imports
-import { Typography, Spinner } from "neetoui";
+import { Input, NoData, Spinner, Typography } from "neetoui";
 import { isEmpty } from "ramda";
 
 import ProductListItem from "./ProductListItem";
@@ -14,12 +13,13 @@ import Header from "../commons/Header";
 /* eslint-disable no-unused-vars */
 const ProductList = () => {
   const [searchKey, setSearchKey] = useState("");
+  const debouncedSearchKey = useDebounce(searchKey);
   const [isLoading, setIsLoading] = useState(true);
   const [products, setProducts] = useState([]);
 
   const fetchProducts = async () => {
     try {
-      const data = await productsApi.fetch({ searchTerm: searchKey });
+      const data = await productsApi.fetch({ searchTerm: debouncedSearchKey });
       setProducts(data.products);
     } catch (error) {
       console.log("An error occurred:", error);
@@ -30,7 +30,7 @@ const ProductList = () => {
 
   useEffect(() => {
     fetchProducts();
-  }, [searchKey]);
+  }, [debouncedSearchKey]);
 
   if (isLoading) {
     return (
