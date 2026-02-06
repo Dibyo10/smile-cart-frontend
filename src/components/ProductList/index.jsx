@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import productsApi from "apis/products";
 import useDebounce from "hooks/useDebounce";
 import { Search } from "neetoicons";
-import { Input, NoData, Spinner, Typography } from "neetoui";
+import { Input, NoData, Spinner } from "neetoui";
 import { isEmpty } from "ramda";
 
 import ProductListItem from "./ProductListItem";
@@ -56,12 +56,6 @@ const ProductList = () => {
         }
       />
       <div className="flex flex-col">
-        <div className="m-2">
-          <Typography className="mx-6 mb-2 mt-6" style="h1" weight="semibold">
-            Smile Cart
-          </Typography>
-          <hr className="neeto-ui-bg-black h-1" />
-        </div>
         {isEmpty(products) ? (
           <NoData className="h-full w-full" title="No products to show" />
         ) : (
