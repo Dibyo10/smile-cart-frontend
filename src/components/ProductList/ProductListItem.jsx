@@ -3,8 +3,17 @@ import { Link } from "react-router-dom";
 import routes from "routes";
 import { buildUrl } from "utils";
 
+import AddToCart from "../AddToCart";
+
 /* eslint-disable react/prop-types */
-const ProductListItem = ({ imageUrl, name, offerPrice, slug }) => (
+const ProductListItem = ({
+  imageUrl,
+  name,
+  offerPrice,
+  slug,
+  isInCart,
+  toggleIsInCart,
+}) => (
   <Link
     className="neeto-ui-border-black neeto-ui-rounded-xl flex w-48 flex-col items-center justify-between border p-4"
     to={buildUrl(routes.products.show, { slug })}
@@ -14,6 +23,7 @@ const ProductListItem = ({ imageUrl, name, offerPrice, slug }) => (
       {name}
     </Typography>
     <Typography>${offerPrice}</Typography>
+    <AddToCart {...{ isInCart, toggleIsInCart }} />
   </Link>
 );
 export default ProductListItem;
