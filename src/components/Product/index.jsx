@@ -10,6 +10,7 @@ import { useParams, useHistory } from "react-router-dom";
 import Carousel from "./Carousel";
 import PageNotFound from "../commons/PageNotFound";
 import Header from "../commons/Header";
+import AddToCart from "components/AddToCart";
 
 const Product = () => {
   const history = useHistory();
@@ -70,6 +71,9 @@ const Product = () => {
           <Typography className="font-semibold text-green-600">
             {discountPercentage}% off
           </Typography>
+          <div className="flex space-x-10">
+            <AddToCart {...{ slug }} />
+          </div>
         </div>
       </div>
     </>
