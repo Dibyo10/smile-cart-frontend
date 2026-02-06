@@ -22,6 +22,7 @@ const setHttpHeaders = () => {
     "Content-Type": "application/json",
   };
 };
+
 export default function initializeAxios() {
   axios.defaults.baseURL =
     "https://smile-cart-backend-staging.neetodeployapp.com/";

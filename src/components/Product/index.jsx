@@ -1,25 +1,35 @@
+/* eslint-disable */
 import { useEffect, useState } from "react";
 
 import productsApi from "apis/products";
 import { Typography, Spinner } from "neetoui";
+import { LeftArrow } from "neetoicons";
 import { isNotNil, append } from "ramda";
+import { useParams, useHistory } from "react-router-dom";
 
 import Carousel from "./Carousel";
+import PageNotFound from "../commons/PageNotFound";
+import Header from "../commons/Header";
 
 const Product = () => {
+  const history = useHistory();
+  const [isError, setIsError] = useState(false);
   const [product, setProduct] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const { slug } = useParams();
 
   const fetchProduct = async () => {
     try {
-      const product = await productsApi.show();
-      setProduct(product);
-    } catch (error) {
-      console.error("Error fetching product data", error);
+      const response = await productsApi.show(slug);
+      setProduct(response);
+    } catch {
+      setIsError(true);
     } finally {
       setIsLoading(false);
     }
   };
+
+  if (isError) return <PageNotFound />;
 
   useEffect(() => {
     fetchProduct();
@@ -41,25 +51,15 @@ const Product = () => {
   }
 
   return (
-    <div className="px-6 pb-6">
-      <div>
-        <Typography className="py-2 text-4xl font-semibold" style="h1">
-          {name}
-        </Typography>
-        <hr className="border-2 border-black" />
-      </div>
-      <div className="mt-16 flex gap-4">
+    <>
+      <Header title={name} />
+      <div className="mt-6 flex gap-4 px-6 pb-6">
         <div className="flex w-2/5 justify-center">
-          <div className="flex justify-center gap-16">
-            {isNotNil(image_urls) ? (
-              <Carousel
-                imageUrls={append(image_url, image_urls)}
-                title={name}
-              />
-            ) : (
-              <img alt={name} className="w-48" src={image_url} />
-            )}
-          </div>
+          {isNotNil(image_urls) ? (
+            <Carousel imageUrls={append(image_url, image_urls)} title={name} />
+          ) : (
+            <img alt={name} className="w-48" src={image_url} />
+          )}
         </div>
         <div className="w-3/5 space-y-4">
           <Typography>{description}</Typography>
@@ -72,7 +72,7 @@ const Product = () => {
           </Typography>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

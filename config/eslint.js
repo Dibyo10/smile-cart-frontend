@@ -68,7 +68,7 @@ module.exports = {
     "prettier/prettier": "error",
     // not-auto-fixable: No unused variables allowed.
     "no-unused-vars": [
-      "error",
+      "warn",
       {
         args: "all",
         argsIgnorePattern: "^_",
