@@ -11,6 +11,7 @@ import Carousel from "./Carousel";
 import PageNotFound from "../commons/PageNotFound";
 import Header from "../commons/Header";
 import AddToCart from "components/commons/AddToCart";
+import useSelectedQuantity from "hooks/useSelectedQuantity";
 
 const Product = () => {
   const history = useHistory();
@@ -18,6 +19,7 @@ const Product = () => {
   const [product, setProduct] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const { slug } = useParams();
+  const { selectedQuantity, setSelectedQuantity } = useSelectedQuantity(slug);
 
   const fetchProduct = async () => {
     try {
@@ -80,6 +82,13 @@ const Product = () => {
           </Typography>
           <div className="flex space-x-10">
             <AddToCart {...{ availableQuantity, slug }} />
+            <Button
+              className="bg-neutral-800 hover:bg-neutral-950"
+              label="Buy now"
+              size="large"
+              to={routes.checkout}
+              onClick={() => setSelectedQuantity(selectedQuantity || 1)}
+            />
           </div>
         </div>
       </div>
