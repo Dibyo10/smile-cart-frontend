@@ -22,7 +22,7 @@ const ProductListItem = ({
       {name}
     </Typography>
     <Typography>${offerPrice}</Typography>
-    <AddToCart {...{ availableQuantity, slug }} />
+    <AddToCart slug={slug} />
   </Link>
 );
 export default ProductListItem;

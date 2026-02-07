@@ -5,14 +5,7 @@ import { Delete } from "neetoicons";
 import { Typography, Alert } from "neetoui";
 import useCartItemsStore from "stores/userCartItemsStore";
 
-const ProductCard = ({
-  slug,
-  imageUrl,
-  offerPrice,
-  mrp,
-  name,
-  availableQuantity,
-}) => {
+const ProductCard = ({ slug, imageUrl, offerPrice, mrp, name }) => {
   const [shouldShowDeleteAlert, setShouldShowDeleteAlert] = useState(false);
 
   const removeCartItem = useCartItemsStore.pickFrom();
@@ -28,9 +21,9 @@ const ProductCard = ({
           <Typography style="body2">MRP: ${mrp}</Typography>
           <Typography style="body2">Offer price: ${offerPrice}</Typography>
         </div>
-        <ProductQuantity {...{ availableQuantity, slug }} />
+        <ProductQuantity slug={slug} />
         <div className="flex items-center space-x-2">
-          <ProductQuantity {...{ availableQuantity, slug }} />
+          <ProductQuantity slug={slug} />
           <Delete
             className="cursor-pointer"
             onClick={() => setShouldShowDeleteAlert(true)}
