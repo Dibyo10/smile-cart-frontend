@@ -6,9 +6,11 @@ import ProductCard from "components/Cart/ProductCard";
 import { Header, PageLoader } from "components/commons";
 import { MRP, OFFER_PRICE } from "components/constants";
 import { cartTotalOf } from "components/utils";
+import i18n from "i18next";
 import { Toastr } from "neetoui";
 import { keys, isEmpty } from "ramda";
 import useCartItemsStore from "stores/userCartItemsStore";
+import withTitle from "utils/withTitle";
 import { shallow } from "zustand/shallow";
 
 const Cart = () => {
@@ -81,4 +83,4 @@ const Cart = () => {
   return <Header title="My Cart" />;
 };
 
-export default Cart;
+export default withTitle(Cart, i18n.t("cart.title"));
