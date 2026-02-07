@@ -1,62 +1,21 @@
-import { useEffect, useState } from "react";
-
-import productsApi from "apis/products";
 import PriceCard from "components/Cart/PriceCard";
 import ProductCard from "components/Cart/ProductCard";
 import { Header, PageLoader } from "components/commons";
 import { MRP, OFFER_PRICE } from "components/constants";
 import { cartTotalOf } from "components/utils";
+import { useFetchCartProducts } from "hooks/reactQuery/useProductsApi";
 import i18n from "i18next";
-import { Toastr } from "neetoui";
 import { keys, isEmpty } from "ramda";
 import useCartItemsStore from "stores/userCartItemsStore";
 import withTitle from "utils/withTitle";
-import { shallow } from "zustand/shallow";
 
 const Cart = () => {
-  const slugs = useCartItemsStore(store => keys(store.cartItems), shallow);
+  const slugs = useCartItemsStore(store => keys(store.cartItems));
 
-  const [products, setProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const { cartItems, setSelectedQuantity } = useCartItemsStore.pick();
+  const { data: products = [], isLoading } = useFetchCartProducts(slugs);
+
   const totalMrp = cartTotalOf(products, MRP);
   const totalOfferPrice = cartTotalOf(products, OFFER_PRICE);
-
-  useEffect(() => {
-    fetchCartProducts();
-  }, [cartItems]);
-
-  const fetchCartProducts = async () => {
-    try {
-      const responses = await Promise.all(
-        slugs.map(slug => productsApi.show(slug))
-      );
-
-      setProducts(responses);
-
-      responses.forEach(({ availableQuantity, name, slug }) => {
-        if (availableQuantity >= cartItems[slug]) return;
-
-        setSelectedQuantity(slug, availableQuantity);
-        if (availableQuantity === 0) {
-          Toastr.error(
-            `${name} is no longer available and has been removed from cart`,
-            {
-              autoClose: 2000,
-            }
-          );
-        }
-      });
-    } catch (error) {
-      console.log("An error occurred:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchCartProducts();
-  }, []);
 
   if (isLoading) return <PageLoader />;
 
