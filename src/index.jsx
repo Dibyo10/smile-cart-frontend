@@ -7,6 +7,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import App from "./App";
+import "./common/i18n";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 

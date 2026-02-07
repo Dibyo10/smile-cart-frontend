@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 
 import productsApi from "apis/products";
 import PriceCard from "components/Cart/PriceCard";
+import ProductCard from "components/Cart/ProductCard";
 import { Header, PageLoader } from "components/commons";
 import { MRP, OFFER_PRICE } from "components/constants";
-import ProductCard from "components/Product/ProductCard";
 import { cartTotalOf } from "components/utils";
 import { Toastr } from "neetoui";
 import { keys, isEmpty } from "ramda";
