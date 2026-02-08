@@ -1,11 +1,18 @@
+import { useRef, useState } from "react";
+
 import { PageLoader } from "components/commons";
-import { useFetchCountries } from "hooks/reactQuery/useCheckoutApi";
+import {
+  useFetchCountries,
+  useCreateOrder,
+} from "hooks/reactQuery/useCheckoutApi";
 import i18n from "i18next";
 import { LeftArrow } from "neetoicons";
-import { Typography } from "neetoui";
+import { Typography, Button } from "neetoui";
 import { Form as NeetoUIForm } from "neetoui/formik";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
+import routes from "routes";
+import useCartItemsStore from "stores/userCartItemsStore";
 import withTitle from "utils/withTitle";
 
 import {
@@ -16,14 +23,46 @@ import Form from "./Form";
 
 const Checkout = () => {
   const { t } = useTranslation();
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
+  const timerRef = useRef(null);
 
   const history = useHistory();
 
   const { isLoading } = useFetchCountries();
+  const clearCart = useCartItemsStore.pickFrom();
+  const { mutate: createOrder } = useCreateOrder();
+
+  const redirectToHome = () => {
+    timerRef.current = setTimeout(() => {
+      history.push(routes.root);
+      clearCart();
+    }, 1500);
+  };
 
   const handleRedirect = () => {
-    history.goBack();
+    if (timerRef.current) {
+      history.push(routes.root);
+      clearCart();
+      clearTimeout(timerRef.current);
+    } else {
+      history.goBack();
+    }
   };
+
+  const handleSubmit = values => {
+    setIsSubmitDisabled(true);
+
+    createOrder(
+      { payload: values },
+      {
+        onSuccess: () => {
+          redirectToHome();
+        },
+        onError: () => setIsSubmitDisabled(false),
+      }
+    );
+  };
+
   if (isLoading) return <PageLoader />;
 
   return (
@@ -32,6 +71,7 @@ const Checkout = () => {
       formikProps={{
         initialValues: CHECKOUT_FORM_INITIAL_VALUES,
         validationSchema: CHECKOUT_FORM_VALIDATION_SCHEMA,
+        onSubmit: handleSubmit,
       }}
     >
       <div className="flex space-x-4">
@@ -55,7 +95,16 @@ const Checkout = () => {
             <Form />
           </div>
         </div>
-        <div className="neeto-ui-bg-gray-300 h-screen w-1/2 pt-10" />
+        <div className="neeto-ui-bg-gray-300 h-screen w-1/2 pt-10">
+          <div className="mt-auto flex justify-center">
+            <Button
+              className="bg-neutral-800 w-1/3 justify-center"
+              disabled={isSubmitDisabled}
+              label={t("confirmOrder")}
+              type="submit"
+            />
+          </div>
+        </div>
       </div>
     </NeetoUIForm>
   );
