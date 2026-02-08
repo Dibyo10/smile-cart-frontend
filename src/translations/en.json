@@ -33,6 +33,10 @@
   "selectState": "Select the state",
   "zipCode": "Zip code",
   "enterZipCode": "Enter zip code",
+  "saveInformationForNextTime": "Save this information for next time",
+  "subtotal": "Subtotal <span>${{totalPrice}}</span>",
+  "totalPayablePrice": "Total Payable <span>${{totalPrice}}</span>",
+  "deliveryCharges": "Delivery charges <span>FREE</span>",
   "validations": {
     "emailRequired": "Email address is required",
     "firstNameRequired": "First name is required",
