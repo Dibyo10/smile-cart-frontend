@@ -6,8 +6,6 @@ import ProductList from "components/ProductList";
 import { NavLink, Route, Switch, Redirect } from "react-router-dom";
 import routes from "routes";
 
-// remaining imports
-
 const App = () => (
   <>
     <div className="mx-4 flex space-x-2">

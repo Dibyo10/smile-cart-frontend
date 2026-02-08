@@ -51,9 +51,7 @@ const Checkout = () => {
             <Form />
           </div>
         </div>
-        <div className="neeto-ui-bg-gray-300 h-screen w-1/2 pt-10">
-          {/* Items added to cart will be displayed here */}
-        </div>
+        <div className="neeto-ui-bg-gray-300 h-screen w-1/2 pt-10" />
       </div>
     </NeetoUIForm>
   );
